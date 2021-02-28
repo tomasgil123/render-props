@@ -1,4 +1,5 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
+import Search from 'src/components/Search'
 
 import MainLayout from 'src/layouts/main'
 
@@ -6,7 +7,18 @@ import MainLayout from 'src/layouts/main'
 import PageWithLayout from 'src/types/pageWithLayout'
 
 const Home: FC = () => {
-  return <div>Home</div>
+  const [todoSelected, setTodoSelected] = useState(null)
+
+  return (
+    <div>
+      Home
+      <Search
+        getTodo={(title: string): void => setTodoSelected(title)}
+        placeholder="Search todos"
+        loading="Loading..."
+      />
+    </div>
+  )
 }
 
 ;(Home as PageWithLayout).layout = MainLayout
