@@ -4,15 +4,19 @@ import { useQuery } from 'react-query'
 import { Todo } from 'src/types/todos'
 import { getTodos } from 'src/services/getTodos'
 import Autocomplete from './Autocomplete'
-import Input from './Input'
 
 type SearchProps = {
   getTodo: (value: any) => void
   placeholder: string
   loading: string
+  input: (
+    handleOnChange: (e: ChangeEvent<HTMLInputElement>) => void,
+    value: string,
+    placeholder: string
+  ) => JSX.Element
 }
 
-const Search: React.FC<SearchProps> = ({ getTodo, placeholder, loading }) => {
+const Search: React.FC<SearchProps> = ({ getTodo, placeholder, loading, input }) => {
   const [todoTitle, setTodoTitle] = useState('')
   const [hasSelected, setHasSelected] = useState(false)
   const [predictions, setPredictions] = useState<Todo[]>([])
@@ -50,7 +54,7 @@ const Search: React.FC<SearchProps> = ({ getTodo, placeholder, loading }) => {
 
   return (
     <div className="relative">
-      <Input onChange={handleOnChange} value={todoTitle} placeholder={placeholder} />
+      {input(handleOnChange, todoTitle, placeholder)}
       {!hasSelected && todoTitle.length >= 3 && (
         <Autocomplete
           loading={isLoading}
